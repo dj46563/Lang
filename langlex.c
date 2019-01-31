@@ -1018,22 +1018,25 @@ YY_RULE_SETUP
 case 33:
 YY_RULE_SETUP
 #line 81 "lang.l"
-DO_RETURN(INT_VAL);
+{
+                                yylval.int_val = atoi(yytext);
+                                DO_RETURN(INT_VAL);
+                            }
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 82 "lang.l"
+#line 85 "lang.l"
 {}                        
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 83 "lang.l"
+#line 86 "lang.l"
 DO_RETURN(FLOAT_VAL);
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 85 "lang.l"
+#line 88 "lang.l"
 {
                                 cSymbol* symbol = g_SymbolTable.FindLocal(yytext);
                                 if (symbol == nullptr) {
@@ -1048,15 +1051,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 96 "lang.l"
+#line 99 "lang.l"
 DO_RETURN(JUNK_TOKEN);
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 99 "lang.l"
+#line 102 "lang.l"
 ECHO;
 	YY_BREAK
-#line 1060 "langlex.c"
+#line 1063 "langlex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2021,7 +2024,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 99 "lang.l"
+#line 102 "lang.l"
 
 
 

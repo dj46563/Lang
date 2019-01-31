@@ -78,7 +78,10 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 "return"                    DO_RETURN(RETURN);
 
 [ \t\n]                             {}
-{DIGIT}+                            DO_RETURN(INT_VAL);
+{DIGIT}+                    {
+                                yylval.int_val = atoi(yytext);
+                                DO_RETURN(INT_VAL);
+                            }
 "//".*"\n"                          {}                        
 {DIGIT}+"."{DIGIT}+                 DO_RETURN(FLOAT_VAL);
 
