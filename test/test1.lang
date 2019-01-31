@@ -1,4 +1,0 @@
-program
-{
-   print(5);
-}
