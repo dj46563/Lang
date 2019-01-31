@@ -83,7 +83,10 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
                                 DO_RETURN(INT_VAL);
                             }
 "//".*"\n"                          {}                        
-{DIGIT}+"."{DIGIT}+                 DO_RETURN(FLOAT_VAL);
+{DIGIT}+"."{DIGIT}+         {
+                                yylval.float_val = atof(yytext);    
+                                DO_RETURN(FLOAT_VAL);
+                            }
 
 {identifier}                {
                                 cSymbol* symbol = g_SymbolTable.FindLocal(yytext);

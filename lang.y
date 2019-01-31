@@ -19,6 +19,7 @@
  /* union defines the type for lexical values */
 %union{
     int             int_val;
+    float           float_val;
     cAstNode*       ast_node;
     cProgramNode*   program_node;
     cBlockNode*     block_node;
@@ -26,6 +27,7 @@
     cPrintNode*     stmt_node;
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
+    cFloatExprNode* float_node;
     cSymbol*        symbol;
     symbolTable_t*   symbolTable;
     }
@@ -166,18 +168,18 @@ param:      expr                {  }
 expr:       expr EQUALS addit   {  }
         |   addit               { $$ = $1; }
 
-addit:      addit '+' term      {  }
-        |   addit '-' term      {  }
+addit:      addit '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }
+        |   addit '-' term      { $$ = new cBinaryExprNode($1, '-', $3); }
         |   term                {  }
 
-term:       term '*' fact       {  }
-        |   term '/' fact       {  }
-        |   term '%' fact       {  }
+term:       term '*' fact       { $$ = new cBinaryExprNode($1, '*', $3); }
+        |   term '/' fact       { $$ = new cBinaryExprNode($1, '/', $3); }
+        |   term '%' fact       { $$ = new cBinaryExprNode($1, '%', $3); }
         |   fact                {  }
 
 fact:        '(' expr ')'       {  }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
-        |   FLOAT_VAL           {  }
+        |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
         |   varref              {  }
 
 %%
