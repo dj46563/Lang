@@ -7,6 +7,7 @@
 // Author: <<<< Tyler Page >>>>
 //
 
+#include <iostream>
 #include "lex.h"
 #include "cSymbolTable.h"
 #include "astnodes.h"
@@ -70,9 +71,6 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 "endif"                     DO_RETURN(ENDIF);
 "while"                     DO_RETURN(WHILE);
 "print"                     DO_RETURN(PRINT);
-"int"                       //DO_RETURN(INT_VAL);
-"float"                     //DO_RETURN(FLOAT_VAL);
-"char"                      //DO_RETURN(CHAR_VAL);
 "array"                     DO_RETURN(ARRAY);
 "struct"                    DO_RETURN(STRUCT);
 "return"                    DO_RETURN(RETURN);
@@ -89,15 +87,20 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
                             }
 
 {identifier}                {
-                                cSymbol* symbol = g_SymbolTable.FindLocal(yytext);
+                                cSymbol* symbol = g_SymbolTable.Find(yytext);
                                 if (symbol == nullptr) {
+                                    std::cout << "didnt find symbol" << std::endl;
                                     cSymbol* symbol = new cSymbol(yytext);
                                     yylval.symbol = g_SymbolTable.Insert(symbol);
                                 }
                                 else {
+                                    std::cout << "found symbol" << std::endl;
                                     yylval.symbol = symbol;
                                 }
-                                return IDENTIFIER;
+                                if (yylval.symbol->IsType())
+                                    return TYPE_ID;
+                                else
+                                    return IDENTIFIER;
                             }
 .                           DO_RETURN(JUNK_TOKEN);
 

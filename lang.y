@@ -23,6 +23,9 @@
     cAstNode*       ast_node;
     cProgramNode*   program_node;
     cBlockNode*     block_node;
+    cDeclsNode*     decls_node;
+    cDeclNode*      decl_node;
+    cVarDeclNode*   varDecl_node;
     cStmtsNode*     stmts_node;
     cPrintNode*     stmt_node;
     cExprNode*      expr_node;
@@ -61,9 +64,9 @@
 %type <block_node> block
 %type <symbolTable> open
 %type <symbolTable> close
-%type <ast_node> decls
-%type <ast_node> decl
-%type <ast_node> var_decl
+%type <decls_node> decls
+%type <decl_node> decl
+%type <varDecl_node> var_decl
 %type <ast_node> struct_decl
 %type <ast_node> array_decl
 %type <ast_node> func_decl
@@ -93,22 +96,22 @@ program: PROGRAM block          { $$ = new cProgramNode($2);
                                   else
                                       YYABORT;
                                 }
-block:  open decls stmts close  {  }
+block:  open decls stmts close  { $$ = new cBlockNode($2, $3); }
     |   open stmts close        { $$ = new cBlockNode(nullptr, $2); }
 
 open:   '{'                     { $$ = g_SymbolTable.IncreaseScope(); }
 
 close:  '}'                     { $$ = g_SymbolTable.DecreaseScope(); }
 
-decls:      decls decl          {  }
-        |   decl                {  }
+decls:      decls decl          { $$->Insert($2); }
+        |   decl                { $$ = new cDeclsNode($1); }
 decl:       var_decl ';'        { $$ = $1; }
         |   struct_decl ';'     {  }
         |   array_decl ';'      {  }
         |   func_decl           {  }
         |   error ';'           {  }
 
-var_decl:   TYPE_ID IDENTIFIER  {  }
+var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 {  }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER

@@ -24,6 +24,6 @@
 #include "cIntExprNode.h"
 #include "cFloatExprNode.h"
 #include "cSymbolTable.h"
+#include "cVarDeclNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"
-

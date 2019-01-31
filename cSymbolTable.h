@@ -24,9 +24,14 @@ class cSymbolTable
         list<symbolTable_t*> m_stack;
     public:
         // Create a symbol table
-        cSymbolTable() {
-            symbolTable_t* newTable = new symbolTable_t;
-            m_stack.push_back(newTable);
+        cSymbolTable() { 
+            IncreaseScope();
+
+            // Insert keywords char, int, and float into symbol table
+            cSymbol *sym = new cSymbol("char");
+            sym->SetType(true);
+
+            Insert(sym);
         }
 
         // Increase the scope: add a level to the nested symbol table
@@ -58,7 +63,7 @@ class cSymbolTable
         // Return the symbol for the outer-most match. 
         // Returns nullptr if no match is found.
         cSymbol *Find(string name) {
-           for (list<symbolTable_t*>::iterator it = m_stack.end(); it != m_stack.begin(); it--) {
+           for (list<symbolTable_t*>::reverse_iterator it = m_stack.rbegin(); it != m_stack.rend(); ++it) {
                 symbolTable_t scope = **it;
                 if (scope.find(name) != scope.end()) {
                     return scope[name];

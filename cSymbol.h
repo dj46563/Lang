@@ -23,6 +23,17 @@ class cSymbol : public cAstNode
         {
             m_id = ++nextId;        // get next available ID
             m_name = name;
+            m_type = false;
+        }
+
+        void SetType(bool arg)
+        {
+            m_type = arg;
+        }
+
+        bool IsType()
+        {
+            return m_type;
         }
 
         // return name of symbol
@@ -41,4 +52,5 @@ class cSymbol : public cAstNode
         static long long nextId;        // Next avail symbol ID
         long long m_id;                 // Unique ID for this symbol
         string m_name;                  // name of symbol
+        bool m_type;                    // whether or not the symbol is a type
 };
