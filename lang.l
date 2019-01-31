@@ -38,11 +38,9 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 
 
 "{"                         {
-                                g_symbolTable.IncreaseScope();
                                 return yytext[0];
                             }
 "}"                         {
-                                g_symbolTable.DecreaseScope();
                                 return yytext[0];
                             }
 
