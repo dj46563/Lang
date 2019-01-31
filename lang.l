@@ -8,7 +8,7 @@
 //
 
 #include "lex.h"
-#include "tokens.h"
+#include "langparse.h"
 #include "cSymbolTable.h"
 
 // Macros that can be used to create debug output from the scanner
@@ -69,9 +69,9 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 "endif"                     DO_RETURN(ENDIF);
 "while"                     DO_RETURN(WHILE);
 "print"                     DO_RETURN(PRINT);
-"int"                       DO_RETURN(INT);
-"float"                     DO_RETURN(FLOAT);
-"char"                      DO_RETURN(CHAR);
+"int"                       //DO_RETURN(INT_VAL);
+"float"                     //DO_RETURN(FLOAT_VAL);
+"char"                      //DO_RETURN(CHAR_VAL);
 "array"                     DO_RETURN(ARRAY);
 "struct"                    DO_RETURN(STRUCT);
 "return"                    DO_RETURN(RETURN);

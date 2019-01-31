@@ -5,7 +5,7 @@
 // Defines a nested symbol table.
 // Individual levels of the symbol table use a std::unordered_map from the STL
 //
-// Author: Phil Howard 
+// Author: Phil Howard and Tyler Page 
 // phil.howard@oit.edu
 //
 //
@@ -84,4 +84,4 @@ class cSymbolTable
 
 // Declaration for the global symbol table.
 // Definition is in main.cpp
-extern cSymbolTable g_symbolTable;
+extern cSymbolTable g_SymbolTable;
