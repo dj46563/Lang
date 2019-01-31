@@ -76,10 +76,9 @@
 #include <iostream>
 #include "lex.h"
 #include "astnodes.h"
-#include "cSymbolTable.h"
 
 
-#line 83 "langparse.c" /* yacc.c:339  */
+#line 82 "langparse.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -141,7 +140,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 21 "lang.y" /* yacc.c:355  */
+#line 20 "lang.y" /* yacc.c:355  */
 
     int             int_val;
     cAstNode*       ast_node;
@@ -152,6 +151,7 @@ union YYSTYPE
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
     cSymbol*        symbol;
+    symbolTable_t*   symbolTable;
     
 
 #line 158 "langparse.c" /* yacc.c:355  */
@@ -1486,13 +1486,13 @@ yyreduce:
 
   case 5:
 #line 97 "lang.y" /* yacc.c:1646  */
-    { (yyval.ast_node) = g_SymbolTable.IncreaseScope(); }
+    { (yyval.symbolTable) = g_SymbolTable.IncreaseScope(); }
 #line 1491 "langparse.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 99 "lang.y" /* yacc.c:1646  */
-    { (yyval.ast_node) = g_SymbolTable.DecreaseScope(); }
+    { (yyval.symbolTable) = g_SymbolTable.DecreaseScope(); }
 #line 1497 "langparse.c" /* yacc.c:1646  */
     break;
 

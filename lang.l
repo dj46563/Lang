@@ -8,8 +8,9 @@
 //
 
 #include "lex.h"
-#include "langparse.h"
 #include "cSymbolTable.h"
+#include "astnodes.h"
+#include "langparse.h"
 
 // Macros that can be used to create debug output from the scanner
 // The first one does NOT create debug output, the second does.
@@ -82,10 +83,10 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 {DIGIT}+"."{DIGIT}+                 DO_RETURN(FLOAT_VAL);
 
 {identifier}                {
-                                cSymbol* symbol = g_symbolTable.FindLocal(yytext);
+                                cSymbol* symbol = g_SymbolTable.FindLocal(yytext);
                                 if (symbol == nullptr) {
                                     cSymbol* symbol = new cSymbol(yytext);
-                                    yylval.symbol = g_symbolTable.Insert(symbol);
+                                    yylval.symbol = g_SymbolTable.Insert(symbol);
                                 }
                                 else {
                                     yylval.symbol = symbol;

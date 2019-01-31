@@ -72,7 +72,7 @@ extern int yydebug;
 
 union YYSTYPE
 {
-#line 21 "lang.y" /* yacc.c:1909  */
+#line 20 "lang.y" /* yacc.c:1909  */
 
     int             int_val;
     cAstNode*       ast_node;
@@ -83,9 +83,10 @@ union YYSTYPE
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
     cSymbol*        symbol;
+    symbolTable_t*   symbolTable;
     
 
-#line 89 "langparse.h" /* yacc.c:1909  */
+#line 90 "langparse.h" /* yacc.c:1909  */
 };
 
 typedef union YYSTYPE YYSTYPE;

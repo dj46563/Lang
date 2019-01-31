@@ -19,8 +19,8 @@
 #include "cDeclsNode.h"
 #include "cBlockNode.h"
 #include "cProgramNode.h"
-#include "cOpNode.h"
 #include "cPrintNode.h"
 #include "cExprNode.h"
 #include "cIntExprNode.h"
-
+#include "cSymbolTable.h"
+#include "cOpNode.h"

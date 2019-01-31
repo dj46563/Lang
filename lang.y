@@ -11,7 +11,6 @@
 #include <iostream>
 #include "lex.h"
 #include "astnodes.h"
-#include "cSymbolTable.h"
 
 %}
 
@@ -28,6 +27,7 @@
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
     cSymbol*        symbol;
+    symbolTable_t*   symbolTable;
     }
 
 %{
@@ -57,8 +57,8 @@
 
 %type <program_node> program
 %type <block_node> block
-%type <ast_node> open
-%type <ast_node> close
+%type <symbolTable> open
+%type <symbolTable> close
 %type <ast_node> decls
 %type <ast_node> decl
 %type <ast_node> var_decl

@@ -557,8 +557,9 @@ char *yytext;
 //
 
 #include "lex.h"
-#include "langparse.h"
 #include "cSymbolTable.h"
+#include "astnodes.h"
+#include "langparse.h"
 
 // Macros that can be used to create debug output from the scanner
 // The first one does NOT create debug output, the second does.
@@ -572,7 +573,7 @@ int Return(int val);
 #define YY_NO_INPUT 1
 /* definitions go here. period is an example. */
 /* NOTE: You do not need to use definitions */
-#line 576 "langlex.c"
+#line 577 "langlex.c"
 
 #define INITIAL 0
 
@@ -752,11 +753,11 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 37 "lang.l"
+#line 38 "lang.l"
 
 
 
-#line 760 "langlex.c"
+#line 761 "langlex.c"
 
 	if ( !(yy_init) )
 		{
@@ -851,193 +852,193 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 40 "lang.l"
+#line 41 "lang.l"
 {
                                 return yytext[0];
                             }
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 43 "lang.l"
+#line 44 "lang.l"
 {
                                 return yytext[0];
                             }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 47 "lang.l"
+#line 48 "lang.l"
 DO_RETURN(PROGRAM);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 48 "lang.l"
+#line 49 "lang.l"
 DO_RETURN('.');
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 49 "lang.l"
+#line 50 "lang.l"
 DO_RETURN('(');
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 50 "lang.l"
+#line 51 "lang.l"
 DO_RETURN(')');
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 51 "lang.l"
+#line 52 "lang.l"
 DO_RETURN(']');
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 52 "lang.l"
+#line 53 "lang.l"
 DO_RETURN('[');
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 53 "lang.l"
+#line 54 "lang.l"
 DO_RETURN(';');
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 54 "lang.l"
+#line 55 "lang.l"
 DO_RETURN(',');
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 55 "lang.l"
+#line 56 "lang.l"
 DO_RETURN('+');
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 56 "lang.l"
+#line 57 "lang.l"
 DO_RETURN('-');
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 57 "lang.l"
+#line 58 "lang.l"
 DO_RETURN('*');
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 58 "lang.l"
+#line 59 "lang.l"
 DO_RETURN('/');
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 59 "lang.l"
+#line 60 "lang.l"
 DO_RETURN('%');
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 60 "lang.l"
+#line 61 "lang.l"
 DO_RETURN('=');
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 62 "lang.l"
+#line 63 "lang.l"
 DO_RETURN(NOT_EQUALS);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 63 "lang.l"
+#line 64 "lang.l"
 DO_RETURN(EQUALS);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 64 "lang.l"
+#line 65 "lang.l"
 DO_RETURN(AND);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 65 "lang.l"
+#line 66 "lang.l"
 DO_RETURN(OR);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 67 "lang.l"
+#line 68 "lang.l"
 DO_RETURN(IF);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 68 "lang.l"
+#line 69 "lang.l"
 DO_RETURN(ELSE);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 69 "lang.l"
+#line 70 "lang.l"
 DO_RETURN(ENDIF);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 70 "lang.l"
+#line 71 "lang.l"
 DO_RETURN(WHILE);
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 71 "lang.l"
+#line 72 "lang.l"
 DO_RETURN(PRINT);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 72 "lang.l"
+#line 73 "lang.l"
 //DO_RETURN(INT_VAL);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 73 "lang.l"
+#line 74 "lang.l"
 //DO_RETURN(FLOAT_VAL);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 74 "lang.l"
+#line 75 "lang.l"
 //DO_RETURN(CHAR_VAL);
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 75 "lang.l"
+#line 76 "lang.l"
 DO_RETURN(ARRAY);
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 76 "lang.l"
+#line 77 "lang.l"
 DO_RETURN(STRUCT);
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 77 "lang.l"
+#line 78 "lang.l"
 DO_RETURN(RETURN);
 	YY_BREAK
 case 32:
 /* rule 32 can match eol */
 YY_RULE_SETUP
-#line 79 "lang.l"
+#line 80 "lang.l"
 {}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 80 "lang.l"
+#line 81 "lang.l"
 DO_RETURN(INT_VAL);
 	YY_BREAK
 case 34:
 /* rule 34 can match eol */
 YY_RULE_SETUP
-#line 81 "lang.l"
+#line 82 "lang.l"
 {}                        
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 82 "lang.l"
+#line 83 "lang.l"
 DO_RETURN(FLOAT_VAL);
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 84 "lang.l"
+#line 85 "lang.l"
 {
-                                cSymbol* symbol = g_symbolTable.FindLocal(yytext);
+                                cSymbol* symbol = g_SymbolTable.FindLocal(yytext);
                                 if (symbol == nullptr) {
                                     cSymbol* symbol = new cSymbol(yytext);
-                                    yylval.symbol = g_symbolTable.Insert(symbol);
+                                    yylval.symbol = g_SymbolTable.Insert(symbol);
                                 }
                                 else {
                                     yylval.symbol = symbol;
@@ -1047,15 +1048,15 @@ YY_RULE_SETUP
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 95 "lang.l"
+#line 96 "lang.l"
 DO_RETURN(JUNK_TOKEN);
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 98 "lang.l"
+#line 99 "lang.l"
 ECHO;
 	YY_BREAK
-#line 1059 "langlex.c"
+#line 1060 "langlex.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2020,7 +2021,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 98 "lang.l"
+#line 99 "lang.l"
 
 
 
