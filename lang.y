@@ -31,6 +31,7 @@
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
     cFloatExprNode* float_node;
+    cVarExprNode*   varExpr_node;
     cSymbol*        symbol;
     symbolTable_t*   symbolTable;
     }
@@ -84,7 +85,7 @@
 %type <expr_node> addit
 %type <expr_node> term
 %type <expr_node> fact
-%type <ast_node> varref
+%type <varExpr_node> varref
 %type <symbol> varpart
 
 %%
@@ -157,9 +158,9 @@ func_call:  IDENTIFIER '(' params ')' {  }
 
 varref:   varref '.' varpart    {  }
         | varref '[' expr ']'   {  }
-        | varpart               {  }
+        | varpart               { $$ = new cVarExprNode($1); }
 
-varpart:  IDENTIFIER            {  }
+varpart:  IDENTIFIER            { $$ = $1; }
 
 lval:     varref                {  }
 
