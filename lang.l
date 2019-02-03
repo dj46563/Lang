@@ -89,12 +89,10 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 {identifier}                {
                                 cSymbol* symbol = g_SymbolTable.Find(yytext);
                                 if (symbol == nullptr) {
-                                    std::cout << "didnt find symbol" << std::endl;
                                     cSymbol* symbol = new cSymbol(yytext);
                                     yylval.symbol = g_SymbolTable.Insert(symbol);
                                 }
                                 else {
-                                    std::cout << "found symbol" << std::endl;
                                     yylval.symbol = symbol;
                                 }
                                 if (yylval.symbol->IsType())

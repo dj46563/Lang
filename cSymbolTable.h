@@ -28,10 +28,16 @@ class cSymbolTable
             IncreaseScope();
 
             // Insert keywords char, int, and float into symbol table
-            cSymbol *sym = new cSymbol("char");
-            sym->SetType(true);
+            cSymbol *charSym = new cSymbol("char");
+            charSym->SetType(true);
+            cSymbol *intSym = new cSymbol("int");
+            intSym->SetType(true);
+            cSymbol *floatSym = new cSymbol("float");
+            floatSym->SetType(true);
 
-            Insert(sym);
+            Insert(charSym);
+            Insert(intSym);
+            Insert(floatSym);
         }
 
         // Increase the scope: add a level to the nested symbol table
