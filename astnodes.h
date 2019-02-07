@@ -31,5 +31,7 @@
 #include "cStructDeclNode.h"
 #include "cIfNode.h"
 #include "cWhileNode.h"
+#include "cParamsNode.h"
+#include "cFuncDeclNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"

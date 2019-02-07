@@ -32,6 +32,8 @@
     cIntExprNode*   int_node;
     cFloatExprNode* float_node;
     cVarExprNode*   varExpr_node;
+    cParamsNode*  params_node;
+    cFuncDeclNode* funcDecl_node;
     cSymbol*        symbol;
     symbolTable_t*   symbolTable;
     }
@@ -70,12 +72,12 @@
 %type <varDecl_node> var_decl
 %type <decl_node> struct_decl
 %type <ast_node> array_decl
-%type <ast_node> func_decl
-%type <ast_node> func_header
-%type <ast_node> func_prefix
+%type <funcDecl_node> func_decl
+%type <funcDecl_node> func_header
+%type <funcDecl_node> func_prefix
 %type <ast_node> func_call
-%type <ast_node> paramsspec
-%type <ast_node> paramspec
+%type <params_node> paramsspec
+%type <varDecl_node> paramspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
 %type <varExpr_node> lval
@@ -119,21 +121,29 @@ array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 {  }
 
 func_decl:  func_header ';'
-                                {  }
+                                { $$ = $1;
+                                  g_SymbolTable.DecreaseScope(); }
         |   func_header  '{' decls stmts '}'
-                                {  }
+                                { $$ = $1;
+                                  $$->InsertLocals($3);
+                                  $$->InsertStmts($4);
+                                  g_SymbolTable.DecreaseScope(); }
         |   func_header  '{' stmts '}'
-                                {  }
+                                { $$ = $1;
+                                  $$->InsertStmts($3);
+                                  g_SymbolTable.DecreaseScope(); }
 func_header: func_prefix paramsspec ')'
-                                {  }
-        |    func_prefix ')'    {  }
+                                { $$ = $1;
+                                  $$->InsertParams($2); }
+        |    func_prefix ')'    { $$ = $1; }
 func_prefix: TYPE_ID IDENTIFIER '('
-                                {  }
+                                { $$ = new cFuncDeclNode($1, $2);
+                                  g_SymbolTable.IncreaseScope(); }
 paramsspec: paramsspec',' paramspec 
-                                {  }
-        |   paramspec           {  }
+                                { $$->Insert($3); }
+        |   paramspec           { $$ = new cParamsNode($1); }
 
-paramspec:  var_decl            {  }
+paramspec:  var_decl            { $$ = $1; }
 
 stmts:      stmts stmt          { $$->Insert($2); }
         |   stmt                { $$ = new cStmtsNode($1); }
