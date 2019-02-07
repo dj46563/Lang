@@ -158,8 +158,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
         |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
-        |   lval '=' func_call ';'   {  }
-        |   func_call ';'       {  }
+        |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); }
+        |   func_call ';'       { $$ = $1; }
         |   block               { $$ = $1; }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}

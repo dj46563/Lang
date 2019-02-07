@@ -13,11 +13,19 @@
 #include "cStmtNode.h"
 #include "cVarExprNode.h"
 #include "cExprNode.h"
+#include "cFuncExprNode.h"
 
 class cAssignNode : public cStmtNode
 {
 public:
     cAssignNode(cVarExprNode* left, cExprNode* right) : cStmtNode()
+    {
+        AddChild(left);
+        AddChild(right);
+    }
+
+    // The constructor for assigning expressions to function (stmt)
+    cAssignNode(cVarExprNode* left, cStmtNode* right) : cStmtNode()
     {
         AddChild(left);
         AddChild(right);
