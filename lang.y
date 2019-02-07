@@ -33,6 +33,7 @@
     cFloatExprNode* float_node;
     cVarExprNode*   varExpr_node;
     cParamsNode*  params_node;
+    cParamListNode* paramList_node;
     cFuncDeclNode* funcDecl_node;
     cSymbol*        symbol;
     symbolTable_t*   symbolTable;
@@ -75,14 +76,14 @@
 %type <funcDecl_node> func_decl
 %type <funcDecl_node> func_header
 %type <funcDecl_node> func_prefix
-%type <ast_node> func_call
+%type <stmt_node> func_call
 %type <params_node> paramsspec
 %type <varDecl_node> paramspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
 %type <varExpr_node> lval
-%type <ast_node> params
-%type <ast_node> param
+%type <paramList_node> params
+%type <expr_node> param
 %type <expr_node> expr
 %type <expr_node> addit
 %type <expr_node> term
@@ -163,8 +164,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
-func_call:  IDENTIFIER '(' params ')' {  }
-        |   IDENTIFIER '(' ')'  {  }
+func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); }
+        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); }
 
 varref:   varref '.' varpart    { $$->Insert($3); }
         | varref '[' expr ']'   {  }
@@ -174,10 +175,10 @@ varpart:  IDENTIFIER            { $$ = $1; }
 
 lval:     varref                { $$ = $1; }
 
-params:     params',' param     {  }
-        |   param               {  }
+params:     params',' param     { $$->Insert($3); }
+        |   param               { $$ = new cParamListNode($1); }
 
-param:      expr                {  }
+param:      expr                { $$ = $1; }
 
 expr:       expr EQUALS addit   {  }
         |   addit               { $$ = $1; }
