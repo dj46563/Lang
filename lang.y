@@ -170,7 +170,21 @@ params:     params',' param     {  }
 param:      expr                {  }
 
 expr:       expr EQUALS addit   {  }
-        |   addit               { $$ = $1; }
+        |   orop               { $$ = $1; }
+
+orop:       orop '||' orop      {  }
+        |   andop               {  }
+andop:      andop '&&' andop    {  }
+        |   noteq               {  }
+
+noteq:      noteq '!=' noteq    {  }
+        |   comp                {  }
+
+comp:       comp '>' comp       {  }
+        |   comp '<' comp       {  }
+        |   comp '<=' comp      {  }
+        |   comp '>=' comp      {  }
+        |   addit
 
 addit:      addit '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }
         |   addit '-' term      { $$ = new cBinaryExprNode($1, '-', $3); }
