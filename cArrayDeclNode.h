@@ -16,7 +16,7 @@
 class cArrayDeclNode : public cDeclNode
 {
 public:
-    cIfNode(int size, cSymbol* type, cSymbol* name) : cDeclNode()
+    cArrayDeclNode(int size, cSymbol* type, cSymbol* name) : cDeclNode()
     {
         m_size = size;
 

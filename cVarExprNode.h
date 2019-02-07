@@ -12,9 +12,9 @@ class cVarExprNode : public cExprNode
         }
 
         // So that you can insert more symbols into the varref
-        void Insert(cSymbol* sym)
+        void Insert(cAstNode* child)
         {
-            AddChild(sym);
+            AddChild(child);
         }
 
         virtual string NodeType() { return string("varref"); }
