@@ -26,5 +26,7 @@
 #include "cSymbolTable.h"
 #include "cVarDeclNode.h"
 #include "cVarExprNode.h"
+#include "cReturnNode.h"
+#include "cIfNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"

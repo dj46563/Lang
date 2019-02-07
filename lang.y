@@ -27,7 +27,7 @@
     cDeclNode*      decl_node;
     cVarDeclNode*   varDecl_node;
     cStmtsNode*     stmts_node;
-    cPrintNode*     stmt_node;
+    cStmtNode*     stmt_node;
     cExprNode*      expr_node;
     cIntExprNode*   int_node;
     cFloatExprNode* float_node;
@@ -139,9 +139,9 @@ stmts:      stmts stmt          { $$->Insert($2); }
         |   stmt                { $$ = new cStmtsNode($1); }
 
 stmt:       IF '(' expr ')' stmts ENDIF ';'
-                                {  }
+                                { $$ = new cIfNode($3, $5, nullptr); }
         |   IF '(' expr ')' stmts ELSE stmts ENDIF ';'
-                                {  }
+                                { $$ = new cIfNode($3, $5, $7); }
         |   WHILE '(' expr ')' stmt 
                                 {  }
         |   PRINT '(' expr ')' ';'
@@ -150,7 +150,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   lval '=' func_call ';'   {  }
         |   func_call ';'       {  }
         |   block               {  }
-        |   RETURN expr ';'     {  }
+        |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
 func_call:  IDENTIFIER '(' params ')' {  }
@@ -170,21 +170,8 @@ params:     params',' param     {  }
 param:      expr                {  }
 
 expr:       expr EQUALS addit   {  }
-        |   orop               { $$ = $1; }
+        |   addit               { $$ = $1; }
 
-orop:       orop '||' orop      {  }
-        |   andop               {  }
-andop:      andop '&&' andop    {  }
-        |   noteq               {  }
-
-noteq:      noteq '!=' noteq    {  }
-        |   comp                {  }
-
-comp:       comp '>' comp       {  }
-        |   comp '<' comp       {  }
-        |   comp '<=' comp      {  }
-        |   comp '>=' comp      {  }
-        |   addit
 
 addit:      addit '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }
         |   addit '-' term      { $$ = new cBinaryExprNode($1, '-', $3); }
@@ -195,7 +182,7 @@ term:       term '*' fact       { $$ = new cBinaryExprNode($1, '*', $3); }
         |   term '%' fact       { $$ = new cBinaryExprNode($1, '%', $3); }
         |   fact                {  }
 
-fact:        '(' expr ')'       {  }
+fact:        '(' expr ')'       { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
         |   varref              {  }
