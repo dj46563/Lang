@@ -30,6 +30,7 @@
 #include "cStructDeclNode.h"
 #include "cIfNode.h"
 #include "cWhileNode.h"
+#include "cArrayDeclNode.h"
 #include "cParamsNode.h"
 #include "cFuncDeclNode.h"
 #include "cParamListNode.h"

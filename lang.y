@@ -112,14 +112,14 @@ decls:      decls decl          { $$->Insert($2); }
 decl:       var_decl ';'        { $$ = $1; }
         |   struct_decl ';'     { $$ = $1; }
         |   array_decl ';'      {  }
-        |   func_decl           {  }
+        |   func_decl           { $$ = $1; }
         |   error ';'           {  }
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 { $$ = new cStructDeclNode($3, $5); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
-                                {  }
+                                { $$ = new cArrayDeclNode($3, $1, $5); }
 
 func_decl:  func_header ';'
                                 { $$ = $1;
@@ -180,7 +180,7 @@ params:     params',' param     { $$->Insert($3); }
 
 param:      expr                { $$ = $1; }
 
-expr:       expr EQUALS addit   {  }
+expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, EQUALS, $3); }
         |   addit               { $$ = $1; }
 
 
