@@ -27,6 +27,8 @@
 #include "cVarDeclNode.h"
 #include "cVarExprNode.h"
 #include "cReturnNode.h"
+#include "cAssignNode.h"
 #include "cIfNode.h"
+#include "cWhileNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"

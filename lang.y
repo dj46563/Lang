@@ -78,7 +78,7 @@
 %type <ast_node> paramspec
 %type <stmts_node> stmts
 %type <stmt_node> stmt
-%type <ast_node> lval
+%type <varExpr_node> lval
 %type <ast_node> params
 %type <ast_node> param
 %type <expr_node> expr
@@ -143,13 +143,13 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   IF '(' expr ')' stmts ELSE stmts ENDIF ';'
                                 { $$ = new cIfNode($3, $5, $7); }
         |   WHILE '(' expr ')' stmt 
-                                {  }
+                                { $$ = new cWhileNode($3, $5); }
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
-        |   lval '=' expr ';'   {  }
+        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
         |   lval '=' func_call ';'   {  }
         |   func_call ';'       {  }
-        |   block               {  }
+        |   block               { $$ = $1; }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
@@ -162,7 +162,7 @@ varref:   varref '.' varpart    {  }
 
 varpart:  IDENTIFIER            { $$ = $1; }
 
-lval:     varref                {  }
+lval:     varref                { $$ = $1; }
 
 params:     params',' param     {  }
         |   param               {  }

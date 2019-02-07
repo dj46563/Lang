@@ -89,12 +89,9 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 {identifier}                {
                                 cSymbol* symbol = g_SymbolTable.Find(yytext);
                                 if (symbol == nullptr) {
-                                    cSymbol* symbol = new cSymbol(yytext);
-                                    yylval.symbol = g_SymbolTable.Insert(symbol);
+                                    symbol = new cSymbol(yytext);
                                 }
-                                else {
-                                    yylval.symbol = symbol;
-                                }
+                                yylval.symbol = symbol;
                                 if (yylval.symbol->IsType())
                                     return TYPE_ID;
                                 else
