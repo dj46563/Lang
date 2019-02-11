@@ -2,13 +2,12 @@
 //**************************************
 // cIntExprNode.h
 //
-// Defines an AST node for an integer constant (literals).
+// Defines an AST node for an float constant (literals).
 //
-// Inherits from cExprNode so that integer constants can be used anywhere 
+// Inherits from cExprNode so that float constants can be used anywhere 
 // expressions are used.
 //
-// Author: Phil Howard 
-// phil.howard@oit.edu
+// Author: Tyler Page (but mostly phil)
 //
 
 #include "cAstNode.h"
@@ -17,7 +16,7 @@
 class cFloatExprNode : public cExprNode
 {
     public:
-        // param is the value of the integer constant
+        // param is the value of the float constant
         cFloatExprNode(float value) : cExprNode()
         {
             m_value = value;

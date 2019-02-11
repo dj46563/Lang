@@ -1,5 +1,9 @@
 #pragma once
 // cBinaryExprNode.h
+//
+//  Node which represents any operation with an expression on the left and right.
+//  op must be a registered operator in the cOpNode class
+//
 // Author: Tyler Page
 //
 

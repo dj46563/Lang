@@ -20,6 +20,7 @@ public:
         AddChild(param);
     }
 
+    // Used to add another parameter to the node
     void Insert(cExprNode* param)
     {
         AddChild(param);

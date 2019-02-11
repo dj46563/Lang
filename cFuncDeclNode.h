@@ -28,16 +28,19 @@ public:
         AddChild(name);
     }
 
+    // Inserts the functions parameters into the node
     void InsertParams(cParamsNode* params)
     {
         AddChild(params);
     }
 
+    // Inserts the function's declarations into the node
     void InsertLocals(cDeclsNode* locals)
     {
         AddChild(locals);
     }
 
+    // Inserts the statements inside of the function into the node
     void InsertStmts(cStmtsNode* stmts)
     {
         AddChild(stmts);

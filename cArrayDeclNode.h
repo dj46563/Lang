@@ -32,7 +32,7 @@ public:
     {
         return " count=\"" + std::to_string(m_size) + "\"";
     }
-    virtual string NodeType() { return string("array"); }
+    virtual string NodeType() { return string("array_decl"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
 
 protected:
