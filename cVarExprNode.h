@@ -8,7 +8,17 @@ class cVarExprNode : public cExprNode
     public:
         cVarExprNode(cSymbol* sym) : cExprNode()
         {
+            // Check if the symbol exists in any scope
+            cSymbol *symbol = g_SymbolTable.Find(sym->GetName());
+            if (symbol == nullptr)
+                SemanticError("Symbol " + sym->GetName() + " not defined");
+
             AddChild(sym);
+        }
+
+        virtual cDeclNode *GetType()
+        {
+            return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl();
         }
 
         // So that you can insert more symbols into the varref

@@ -27,6 +27,13 @@ public:
         AddChild(name);
     }
 
+    virtual cDeclNode *GetType() {
+        return dynamic_cast<cSymbol*>(GetChild(1))->GetDecl();
+    }
+    virtual std::string GetName() {
+        return dynamic_cast<cSymbol*>(GetChild(1))->GetName();
+    }
+
     virtual string NodeType() { return string("struct_decl"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
 };

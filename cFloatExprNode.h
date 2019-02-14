@@ -22,6 +22,11 @@ class cFloatExprNode : public cExprNode
             m_value = value;
         }
 
+        virtual cDeclNode *GetType()
+        {
+            return g_SymbolTable.Find("float")->GetDecl();
+        }
+
         virtual string AttributesToString() 
         {
             return " value=\"" + std::to_string(m_value) + "\"";

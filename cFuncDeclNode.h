@@ -46,6 +46,14 @@ public:
         AddChild(stmts);
     }
 
+    // TODO
+    virtual cDeclNode *GetType() {
+        return nullptr;
+    }
+    virtual std::string GetName() {
+        return "";
+    }
+
     virtual string NodeType() { return string("func"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
 };

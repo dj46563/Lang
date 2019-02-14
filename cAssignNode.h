@@ -20,6 +20,13 @@ class cAssignNode : public cStmtNode
 public:
     cAssignNode(cVarExprNode* left, cExprNode* right) : cStmtNode()
     {
+        // Check that the types match
+        if (left->GetType() != right->GetType())
+        {
+            SemanticError("Cannot assign " + left->GetType()->GetName() +
+                    " to " + right->GetType()->GetName());
+        }
+
         AddChild(left);
         AddChild(right);
     }

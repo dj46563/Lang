@@ -11,6 +11,7 @@
 // Date: Jan. 18, 2015
 //
 
+#include "cSymbolTable.h"
 #include "cAstNode.h"
 #include "cSymbol.h"
 #include "cStmtNode.h"
@@ -38,5 +39,3 @@
 #include "cAssignNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"
-
-extern bool g_semanticErrorHappened;

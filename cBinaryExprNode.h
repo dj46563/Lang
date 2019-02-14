@@ -15,9 +15,17 @@ class cBinaryExprNode : public cExprNode
 public:
     cBinaryExprNode(cExprNode *expr1, int op, cExprNode *expr2) : cExprNode()
     {
+        
+
         AddChild(expr1);
         AddChild(new cOpNode(op));
         AddChild(expr2);    
+    }
+
+    // TODO
+    virtual cDeclNode *GetType()
+    {
+        return nullptr;
     }
 
     virtual string NodeType() { return string("expr"); }

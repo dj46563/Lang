@@ -28,6 +28,14 @@ public:
         AddChild(name);
     }
 
+    // TODO
+    virtual cDeclNode *GetType() {
+        return nullptr;
+    }
+    virtual std::string GetName() {
+        return "";
+    }
+
     virtual string AttributesToString()
     {
         return " count=\"" + std::to_string(m_size) + "\"";

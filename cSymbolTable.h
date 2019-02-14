@@ -13,6 +13,7 @@
 #include "cSymbol.h"
 #include <unordered_map>
 #include <list>
+#include "cBaseTypeNode.h"
 
 using namespace std;
 
@@ -30,10 +31,22 @@ class cSymbolTable
             // Insert keywords char, int, and float into symbol table
             cSymbol *charSym = new cSymbol("char");
             charSym->SetType(true);
+            // Assign base node to symbol
+            cBaseTypeNode *baseChar = new cBaseTypeNode("char", 0, false);
+            charSym->SetDecl(baseChar);
+
             cSymbol *intSym = new cSymbol("int");
             intSym->SetType(true);
+            // Assign base node to symbol
+            cBaseTypeNode *baseInt = new cBaseTypeNode("int", 0, false);
+            intSym->SetDecl(baseInt);  
+
             cSymbol *floatSym = new cSymbol("float");
             floatSym->SetType(true);
+            // Assign base node to symbol
+            cBaseTypeNode *baseFloat = new cBaseTypeNode("float", 0, true);
+            floatSym->SetDecl(baseFloat);
+
 
             Insert(charSym);
             Insert(intSym);

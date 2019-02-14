@@ -36,6 +36,20 @@ class cSymbol : public cAstNode
             return m_type;
         }
 
+        cDeclNode * GetDecl()
+        {
+            return m_decl;
+        }
+        void SetDecl(cDeclNode* decl)
+        {
+            m_decl = decl;
+        }
+
+        long long GetId()
+        {
+            return m_id;
+        }
+
         // return name of symbol
         string GetName() { return m_name; }
 
@@ -53,4 +67,5 @@ class cSymbol : public cAstNode
         long long m_id;                 // Unique ID for this symbol
         string m_name;                  // name of symbol
         bool m_type;                    // whether or not the symbol is a type
+        cDeclNode* m_decl;
 };

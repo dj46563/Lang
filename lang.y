@@ -8,6 +8,11 @@
 // phil.howard@oit.edu
 //
 
+#define CHECK_ERROR() { if (g_semanticErrorHappened) \
+    { g_semanticErrorHappened = false; } }
+#define PROP_ERROR() { if (g_semanticErrorHappened) \
+    { g_semanticErrorHappened = false; YYERROR; } }
+
 #include <iostream>
 #include "lex.h"
 #include "astnodes.h"
@@ -42,6 +47,8 @@
 %{
     int yyerror(const char *msg);
 
+    static bool g_semanticErrorHappened = false;
+    
     cAstNode *yyast_root;
 %}
 
@@ -115,7 +122,7 @@ decl:       var_decl ';'        { $$ = $1; }
         |   func_decl           { $$ = $1; }
         |   error ';'           {  }
 
-var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); }
+var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); PROP_ERROR();}
 struct_decl:  STRUCT open decls close IDENTIFIER    
                                 { $$ = new cStructDeclNode($3, $5); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
@@ -157,7 +164,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
                                 { $$ = new cWhileNode($3, $5); }
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
-        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); }
+        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); PROP_ERROR();}
         |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); }
         |   func_call ';'       { $$ = $1; }
         |   block               { $$ = $1; }
@@ -169,7 +176,7 @@ func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); }
 
 varref:   varref '.' varpart    { $$->Insert($3); }
         | varref '[' expr ']'   { $$->Insert($3); }
-        | varpart               { $$ = new cVarExprNode($1); }
+        | varpart               { $$ = new cVarExprNode($1); PROP_ERROR();}
 
 varpart:  IDENTIFIER            { $$ = $1; }
 
@@ -180,7 +187,7 @@ params:     params',' param     { $$->Insert($3); }
 
 param:      expr                { $$ = $1; }
 
-expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, EQUALS, $3); }
+expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, EQUALS, $3); PROP_ERROR();}
         |   addit               { $$ = $1; }
 
 
@@ -199,11 +206,6 @@ fact:        '(' expr ')'       { $$ = $2; }
         |   varref              {  }
 
 %%
-#define CHECK_ERROR() { if (g_semanticErrorHappened)
-    { g_semanticErrorHappened = false; } }
-#define PROP_ERROR() { if (g_semanticErrorHappened)
-    { g_semanticErrorHappened = false; YYERROR; } }
-
 // Function to format error messages
 int yyerror(const char *msg)
 {

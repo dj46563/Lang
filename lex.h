@@ -13,6 +13,7 @@
 //#include "cSymbolTable.h"
 #include "cAstNode.h"
 
+extern void SemanticError(std::string error); //Print a Semantic error
 int yyparse();                          // parsing function
 int yylex();                            // scanning function
 extern char *yytext;                    // text of current token

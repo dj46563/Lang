@@ -12,13 +12,19 @@
 
 #include "cStmtNode.h"
 
-class cFuncExprNode : public cStmtNode
+class cFuncExprNode : public cExprNode
 {
 public:
-    cFuncExprNode(cSymbol* name, cParamListNode* params) : cStmtNode()
+    cFuncExprNode(cSymbol* name, cParamListNode* params) : cExprNode()
     {
         AddChild(name);
         AddChild(params);
+    }
+
+    // TODO
+    virtual cDeclNode *GetType()
+    {
+        return nullptr;
     }
 
     virtual string NodeType() { return string("funcCall"); }
