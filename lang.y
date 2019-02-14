@@ -199,6 +199,10 @@ fact:        '(' expr ')'       { $$ = $2; }
         |   varref              {  }
 
 %%
+#define CHECK_ERROR() { if (g_semanticErrorHappened)
+    { g_semanticErrorHappened = false; } }
+#define PROP_ERROR() { if (g_semanticErrorHappened)
+    { g_semanticErrorHappened = false; YYERROR; } }
 
 // Function to format error messages
 int yyerror(const char *msg)
@@ -207,4 +211,13 @@ int yyerror(const char *msg)
         << yytext << " on line " << yylineno << "\n";
 
     return 0;
+}
+
+// Function that gets called when a semantic error happens
+void SemanticError(std::string error)
+{
+    std::cout << "ERROR: " << error << " on line "
+        << yylineno << "\n";
+    g_semanticErrorHappened = true;
+    yynerrs++;
 }

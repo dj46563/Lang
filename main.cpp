@@ -20,11 +20,14 @@
 
 // define global variables
 cSymbolTable g_SymbolTable;
+bool g_semanticErrorHappened;
 long long cSymbol::nextId;
 
 // takes two string args: input_file, and output_file
 int main(int argc, char **argv)
 {
+    g_semanticErrorHappened = false;
+
     std::cout << "Tyler Page" << std::endl;
 
     const char *outfile_name;

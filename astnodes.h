@@ -38,3 +38,5 @@
 #include "cAssignNode.h"
 #include "cOpNode.h"
 #include "cBinaryExprNode.h"
+
+extern bool g_semanticErrorHappened;

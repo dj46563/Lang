@@ -15,6 +15,8 @@ using std::vector;
 
 #include "cVisitor.h"
 
+void SemanticError(std::string error);
+
 class cAstNode
 {
     public:
