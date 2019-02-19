@@ -164,8 +164,8 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
                                 { $$ = new cWhileNode($3, $5); }
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
-        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); PROP_ERROR();}
-        |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); }
+        |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); CHECK_ERROR();}
+        |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); CHECK_ERROR();}
         |   func_call ';'       { $$ = $1; }
         |   block               { $$ = $1; }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }

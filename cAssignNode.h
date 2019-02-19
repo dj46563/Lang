@@ -23,12 +23,21 @@ public:
         // Check that the types match
         if (left->GetType() != right->GetType())
         {
-            SemanticError("Cannot assign " + left->GetType()->GetName() +
-                    " to " + right->GetType()->GetName());
+            // Do not throw an error if you are assigning char to int,
+            // char to float, or int to float
+            std::string leftName = left->GetType()->GetName();
+            std::string rightName = right->GetType()->GetName();
+            if (!((leftName == "int" && rightName == "char") ||
+                    (leftName == "float" && rightName == "char") ||
+                    (leftName == "float" && rightName == "int")))
+                SemanticError("Cannot assign " + rightName +
+                    " to " + leftName);
         }
 
         AddChild(left);
         AddChild(right);
+
+        rightStr = "test";
     }
 
     // The constructor for assigning expressions to function (stmt)
@@ -40,4 +49,5 @@ public:
 
     virtual string NodeType() { return string("assign"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
+    std::string rightStr;
 };

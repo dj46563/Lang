@@ -22,6 +22,8 @@ public:
     cFuncDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
     {   
         // Add the function name to the symbol table and set it as a type
+        // Set the name symbol's decl
+        name->SetDecl(type->GetDecl());
         g_SymbolTable.Insert(name);
 
         AddChild(type);
@@ -46,12 +48,11 @@ public:
         AddChild(stmts);
     }
 
-    // TODO
     virtual cDeclNode *GetType() {
-        return nullptr;
+        return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl();
     }
     virtual std::string GetName() {
-        return "";
+        return dynamic_cast<cSymbol*>(GetChild(1))->GetName();
     }
 
     virtual string NodeType() { return string("func"); }

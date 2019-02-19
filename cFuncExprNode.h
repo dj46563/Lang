@@ -21,10 +21,9 @@ public:
         AddChild(params);
     }
 
-    // TODO
     virtual cDeclNode *GetType()
     {
-        return nullptr;
+        return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl();
     }
 
     virtual string NodeType() { return string("funcCall"); }
