@@ -23,7 +23,7 @@ public:
     {   
         // Add the function name to the symbol table and set it as a type
         // Set the name symbol's decl
-        name->SetDecl(type->GetDecl());
+        name->SetDecl(this);
         g_SymbolTable.Insert(name);
 
         AddChild(type);

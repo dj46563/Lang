@@ -23,7 +23,7 @@ public:
 
     virtual cDeclNode *GetType()
     {
-        return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl();
+        return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl()->GetType();
     }
 
     virtual string NodeType() { return string("funcCall"); }

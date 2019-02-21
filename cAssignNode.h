@@ -41,12 +41,13 @@ public:
     }
 
     // The constructor for assigning expressions to function (stmt)
+    /*
     cAssignNode(cVarExprNode* left, cStmtNode* right) : cStmtNode()
     {
         AddChild(left);
         AddChild(right);
     }
-
+*/
     virtual string NodeType() { return string("assign"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
     std::string rightStr;

@@ -83,7 +83,7 @@
 %type <funcDecl_node> func_decl
 %type <funcDecl_node> func_header
 %type <funcDecl_node> func_prefix
-%type <stmt_node> func_call
+%type <expr_node> func_call
 %type <params_node> paramsspec
 %type <varDecl_node> paramspec
 %type <stmts_node> stmts
