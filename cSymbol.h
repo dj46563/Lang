@@ -24,6 +24,7 @@ class cSymbol : public cAstNode
             m_id = ++nextId;        // get next available ID
             m_name = name;
             m_type = false;
+            m_decl = nullptr;
         }
 
         void SetType(bool arg)

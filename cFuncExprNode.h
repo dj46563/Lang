@@ -18,13 +18,18 @@ public:
     cFuncExprNode(cSymbol* name, cParamListNode* params) : cExprNode()
     {
         // Check to see if the name is a delcaration
-        if (!g_SymbolTable.Find(name->GetName())) {
+        if (name->GetDecl() == nullptr) {
             SemanticError(name->GetName() + " is not declared");
         }
         // Check to see if the name is a delclaration of a function
-        else if (!g_SymbolTable.Find(name->GetName())->GetDecl()->IsFunc())
+        else if (!name->GetDecl()->IsFunc())
         {
             SemanticError(name->GetName() + " is not a function");
+        }
+        // Check if the function is defined before calling it
+        else if (!dynamic_cast<cFuncDeclNode*>(name->GetDecl())->GetDefined())
+        {
+            SemanticError(name->GetName() + " is not fully defined");
         }
         else 
         {
