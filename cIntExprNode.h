@@ -27,8 +27,10 @@ class cIntExprNode : public cExprNode
         {
             // Return the decl attached to either the char or int
             // symbol based on the value
-            if (m_value >= -128 && m_value <= 127)
-                return g_SymbolTable.Find("char")->GetDecl(); // Change to char when ur ready
+            if (m_value >= -128 && m_value <= 127) 
+            {
+                return g_SymbolTable.Find("char")->GetDecl();
+            }
             else
                 return g_SymbolTable.Find("int")->GetDecl();
         }

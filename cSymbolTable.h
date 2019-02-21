@@ -32,19 +32,19 @@ class cSymbolTable
             cSymbol *charSym = new cSymbol("char");
             charSym->SetType(true);
             // Assign base node to symbol
-            cBaseTypeNode *baseChar = new cBaseTypeNode("char", 0, false);
+            cBaseTypeNode *baseChar = new cBaseTypeNode("char", 1, false);
             charSym->SetDecl(baseChar);
 
             cSymbol *intSym = new cSymbol("int");
             intSym->SetType(true);
             // Assign base node to symbol
-            cBaseTypeNode *baseInt = new cBaseTypeNode("int", 0, false);
+            cBaseTypeNode *baseInt = new cBaseTypeNode("int", 4, false);
             intSym->SetDecl(baseInt);  
 
             cSymbol *floatSym = new cSymbol("float");
             floatSym->SetType(true);
             // Assign base node to symbol
-            cBaseTypeNode *baseFloat = new cBaseTypeNode("float", 0, true);
+            cBaseTypeNode *baseFloat = new cBaseTypeNode("float", 8, true);
             floatSym->SetDecl(baseFloat);
 
 

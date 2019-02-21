@@ -21,16 +21,13 @@ public:
 
         // Determine type
         // float -> int -> char
-        std::string expr1Name = expr1->GetType()->GetName();
-        std::string expr2Name = expr2->GetType()->GetName();
-        m_type = expr1->GetType();
-        if (expr1Name == "float")
+        if (expr1->GetType()->IsFloat())
             m_type = expr1->GetType();
-        else if (expr1Name == "int")
-            m_type = expr1->GetType();
-        if (expr2Name == "float")
+        else if (expr2->GetType()->IsFloat())
             m_type = expr2->GetType();
-        else if (expr2Name == "int");
+        else if (expr1->GetType()->GetSize() > expr2->GetType()->GetSize())
+            m_type = expr1->GetType();
+        else
             m_type = expr2->GetType();
     }
 

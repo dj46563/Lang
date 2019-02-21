@@ -31,6 +31,14 @@ class cBaseTypeNode : public cDeclNode
         virtual string NodeType() {
             return string("baseType_node");
         }
+        virtual int GetSize()
+        {
+            return m_size;
+        }
+        virtual bool IsFloat()
+        {
+            return m_isFloat;
+        }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
     private:
         std::string m_name;

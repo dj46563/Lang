@@ -171,7 +171,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
-func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); }
+func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); PROP_ERROR();}
         |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); }
 
 varref:   varref '.' varpart    { $$->Insert($3); }

@@ -55,6 +55,11 @@ public:
         return dynamic_cast<cSymbol*>(GetChild(1))->GetName();
     }
 
+    virtual bool IsFunc()
+    {
+        return true;
+    }
+
     virtual string NodeType() { return string("func"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
 };
