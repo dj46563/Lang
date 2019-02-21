@@ -135,14 +135,16 @@ func_decl:  func_header ';'
                                 { $$ = $1;
                                   $$->InsertLocals($3);
                                   $$->InsertStmts($4);
+                                  PROP_ERROR();
                                   g_SymbolTable.DecreaseScope(); }
         |   func_header  '{' stmts '}'
                                 { $$ = $1;
                                   $$->InsertStmts($3);
+                                  PROP_ERROR();
                                   g_SymbolTable.DecreaseScope(); }
 func_header: func_prefix paramsspec ')'
                                 { $$ = $1;
-                                  $$->InsertParams($2); }
+                                  $$->InsertParams($2); PROP_ERROR();}
         |    func_prefix ')'    { $$ = $1; }
 func_prefix: TYPE_ID IDENTIFIER '('
                                 { $$ = new cFuncDeclNode($1, $2); PROP_ERROR();

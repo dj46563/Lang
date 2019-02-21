@@ -21,11 +21,22 @@ public:
         AddChild(decl);
     }
 
+    int GetNumParams()
+    {
+        return NumChildren();
+    }
+
+    cVarDeclNode* GetParam(int i )
+    {
+        return dynamic_cast<cVarDeclNode*>(GetChild(i));
+    }
+
     // Allows for multiple children (var decls) to be added to the function parameters
     void Insert(cVarDeclNode* decl)
     {
         AddChild(decl);
     }
+
 
     virtual string NodeType() { return string("args"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
