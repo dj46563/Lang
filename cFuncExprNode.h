@@ -17,15 +17,20 @@ class cFuncExprNode : public cExprNode
 public:
     cFuncExprNode(cSymbol* name, cParamListNode* params) : cExprNode()
     {
-        // Check to see if the name is a name of a function
-        if (!g_SymbolTable.Find(name->GetName())->GetDecl()->IsFunc())
+        // Check to see if the name is a delcaration
+        if (!g_SymbolTable.Find(name->GetName())) {
+            SemanticError(name->GetName() + " is not declared");
+        }
+        // Check to see if the name is a delclaration of a function
+        else if (!g_SymbolTable.Find(name->GetName())->GetDecl()->IsFunc())
         {
             SemanticError(name->GetName() + " is not a function");
-            return;
         }
-
-        AddChild(name);
-        AddChild(params);
+        else 
+        {
+            AddChild(name);
+            AddChild(params);
+        }
     }
 
     virtual cDeclNode *GetType()

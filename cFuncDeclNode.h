@@ -20,7 +20,19 @@ class cFuncDeclNode : public cDeclNode
 {
 public:
     cFuncDeclNode(cSymbol* type, cSymbol* name) : cDeclNode()
-    {   
+    {  
+        // Check if there is another func decl with this name
+        // and if their return types match
+        cSymbol* otherSym = g_SymbolTable.Find(name->GetName());
+        if (otherSym != nullptr)
+        {
+            if (otherSym->GetDecl()->GetType() != type->GetDecl()->GetType())
+            {
+                SemanticError(name->GetName() + " previously " + 
+                        "defined with a different return type");
+            }
+        }
+
         // Add the function name to the symbol table and set it as a type
         // Set the name symbol's decl
         name->SetDecl(this);

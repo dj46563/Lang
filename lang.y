@@ -145,7 +145,7 @@ func_header: func_prefix paramsspec ')'
                                   $$->InsertParams($2); }
         |    func_prefix ')'    { $$ = $1; }
 func_prefix: TYPE_ID IDENTIFIER '('
-                                { $$ = new cFuncDeclNode($1, $2);
+                                { $$ = new cFuncDeclNode($1, $2); PROP_ERROR();
                                   g_SymbolTable.IncreaseScope(); }
 paramsspec: paramsspec',' paramspec 
                                 { $$->Insert($3); }
@@ -172,7 +172,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   error ';'           {}
 
 func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); PROP_ERROR();}
-        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); }
+        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); PROP_ERROR();}
 
 varref:   varref '.' varpart    { $$->Insert($3); }
         | varref '[' expr ']'   { $$->Insert($3); }
