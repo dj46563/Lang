@@ -30,6 +30,7 @@
     cBlockNode*     block_node;
     cDeclsNode*     decls_node;
     cDeclNode*      decl_node;
+    cStructDeclNode*    structDecl_node;
     cVarDeclNode*   varDecl_node;
     cStmtsNode*     stmts_node;
     cStmtNode*     stmt_node;
@@ -78,7 +79,7 @@
 %type <decls_node> decls
 %type <decl_node> decl
 %type <varDecl_node> var_decl
-%type <decl_node> struct_decl
+%type <structDecl_node> struct_decl
 %type <decl_node> array_decl
 %type <funcDecl_node> func_decl
 %type <funcDecl_node> func_header
@@ -124,7 +125,7 @@ decl:       var_decl ';'        { $$ = $1; }
 
 var_decl:   TYPE_ID IDENTIFIER  { $$ = new cVarDeclNode($1, $2); PROP_ERROR();}
 struct_decl:  STRUCT open decls close IDENTIFIER    
-                                { $$ = new cStructDeclNode($3, $5); }
+                                { $$ = new cStructDeclNode($3, $5, $2); }
 array_decl: ARRAY TYPE_ID '[' INT_VAL ']' IDENTIFIER
                                 { $$ = new cArrayDeclNode($4, $2, $6); }
 
@@ -176,7 +177,7 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
 func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); PROP_ERROR();}
         |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); PROP_ERROR();}
 
-varref:   varref '.' varpart    { $$->Insert($3); }
+varref:   varref '.' varpart    { $$->Insert($3); PROP_ERROR();}
         | varref '[' expr ']'   { $$->Insert($3); }
         | varpart               { $$ = new cVarExprNode($1); PROP_ERROR();}
 
