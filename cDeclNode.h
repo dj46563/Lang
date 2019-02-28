@@ -41,7 +41,7 @@ class cDeclNode : public cAstNode
         int GetDeclSize()   { return m_declSize; }
         int GetDeclOffset() { return  m_declOffset; }
         void SetDeclSize(int size) { m_declSize = size; }
-        void setDeclOffset(int offset) { m_declOffset = offset; }
+        void SetDeclOffset(int offset) { m_declOffset = offset; }
     private:
         int m_declSize;
         int m_declOffset;

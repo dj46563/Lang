@@ -30,6 +30,9 @@ public:
         iden->SetDecl(type->GetDecl()); // Setting the identifier's decl to this
         g_SymbolTable.Insert(iden);
 
+        // Set the size member to the type's size
+        SetDeclSize(type->GetDecl()->GetSize());
+
         AddChild(type);
         AddChild(iden);
     }
