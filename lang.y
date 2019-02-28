@@ -60,15 +60,12 @@
 %token <int_val>   CHAR_VAL
 %token <int_val>   INT_VAL
 %token <float_val> FLOAT_VAL
-%token <int_val>   AND
-%token <int_val>   OR
-%token <int_val>   EQUALS
-%token <int_val>   NOT_EQUALS
 
 %token  PROGRAM
 %token  PRINT
 %token  WHILE IF ELSE ENDIF
 %token  STRUCT ARRAY
+%token  AND OR NEQUALS EQUALS
 %token  RETURN
 %token  JUNK_TOKEN
 
@@ -93,7 +90,9 @@
 %type <paramList_node> params
 %type <expr_node> param
 %type <expr_node> expr
-%type <expr_node> addit
+%type <expr_node> and
+%type <expr_node> equal
+%type <expr_node> add
 %type <expr_node> term
 %type <expr_node> fact
 %type <varExpr_node> varref
@@ -148,8 +147,9 @@ func_header: func_prefix paramsspec ')'
                                   $$->InsertParams($2); PROP_ERROR();}
         |    func_prefix ')'    { $$ = $1; }
 func_prefix: TYPE_ID IDENTIFIER '('
-                                { $$ = new cFuncDeclNode($1, $2); PROP_ERROR();
-                                  g_SymbolTable.IncreaseScope(); }
+                                { $$ = new cFuncDeclNode($1, $2); 
+                                    PROP_ERROR();
+                                    g_SymbolTable.IncreaseScope(); }
 paramsspec: paramsspec',' paramspec 
                                 { $$->Insert($3); }
         |   paramspec           { $$ = new cParamsNode($1); }
@@ -168,14 +168,15 @@ stmt:       IF '(' expr ')' stmts ENDIF ';'
         |   PRINT '(' expr ')' ';'
                                 { $$ = new cPrintNode($3); }
         |   lval '=' expr ';'   { $$ = new cAssignNode($1, $3); CHECK_ERROR();}
-        |   lval '=' func_call ';'   { $$ = new cAssignNode($1, $3); CHECK_ERROR();}
         |   func_call ';'       { $$ = $1; }
         |   block               { $$ = $1; }
         |   RETURN expr ';'     { $$ = new cReturnNode($2); }
         |   error ';'           {}
 
-func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); PROP_ERROR();}
-        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); PROP_ERROR();}
+func_call:  IDENTIFIER '(' params ')' { $$ = new cFuncExprNode($1, $3); 
+                                        PROP_ERROR();}
+        |   IDENTIFIER '(' ')'  { $$ = new cFuncExprNode($1, nullptr); 
+                                    PROP_ERROR();}
 
 varref:   varref '.' varpart    { $$->Insert($3); PROP_ERROR();}
         | varref '[' expr ']'   { $$->Insert($3); }
@@ -190,23 +191,31 @@ params:     params',' param     { $$->Insert($3); }
 
 param:      expr                { $$ = $1; }
 
-expr:       expr EQUALS addit   { $$ = new cBinaryExprNode($1, EQUALS, $3); PROP_ERROR();}
-        |   addit               { $$ = $1; }
+expr:       expr OR and         { $$ = new cBinaryExprNode($1, OR, $3); 
+                                    PROP_ERROR();}
+        |   and                 { $$ = $1; }
 
+and:        and AND equal       { $$ = new cBinaryExprNode($1, AND, $3); }
+        |   equal               { $$ = $1; }
 
-addit:      addit '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }
-        |   addit '-' term      { $$ = new cBinaryExprNode($1, '-', $3); }
-        |   term                {  }
+equal:      equal EQUALS add    { $$ = new cBinaryExprNode($1, EQUALS, $3); }
+        |   equal NEQUALS add   { $$ = new cBinaryExprNode($1, NEQUALS, $3); }
+        |   add
+
+add:        add '+' term      { $$ = new cBinaryExprNode($1, '+', $3); }
+        |   add '-' term      { $$ = new cBinaryExprNode($1, '-', $3); }
+        |   term                { $$ = $1; }
 
 term:       term '*' fact       { $$ = new cBinaryExprNode($1, '*', $3); }
         |   term '/' fact       { $$ = new cBinaryExprNode($1, '/', $3); }
         |   term '%' fact       { $$ = new cBinaryExprNode($1, '%', $3); }
-        |   fact                {  }
+        |   fact                { $$ = $1; }
 
 fact:        '(' expr ')'       { $$ = $2; }
         |   INT_VAL             { $$ = new cIntExprNode($1); }
         |   FLOAT_VAL           { $$ = new cFloatExprNode($1); }
-        |   varref              {  }
+        |   varref              { $$ = $1; }
+        |   func_call           { $$ = $1; }
 
 %%
 // Function to format error messages

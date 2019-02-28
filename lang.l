@@ -61,10 +61,10 @@ identifier      {NONDIGIT}+({DIGIT}|{NONDIGIT})*
 "%"                         DO_RETURN('%');
 "="                         DO_RETURN('=');
 
-"!="                        DO_RETURN(NOT_EQUALS);
-"=="                        DO_RETURN(EQUALS);
-"&&"                        DO_RETURN(AND);
-"||"                        DO_RETURN(OR);
+"!="                        { yylval.int_val = NEQUALS; DO_RETURN(NEQUALS); }
+"=="                        { yylval.int_val = EQUALS; DO_RETURN(EQUALS); }
+"&&"                        { yylval.int_val = AND; DO_RETURN(AND); }
+"||"                        { yylval.int_val = OR; DO_RETURN(OR); }
 
 "if"                        DO_RETURN(IF);
 "else"                      DO_RETURN(ELSE);
