@@ -22,6 +22,8 @@ class cProgramNode;
 class cStmtNode;
 class cStmtsNode;
 class cSymbol;
+class cParamsNode;
+class cVarDeclNode;
 
 class cVisitor
 {
@@ -43,6 +45,7 @@ class cVisitor
         virtual void Visit(cStmtsNode *node);
         virtual void Visit(cSymbol *node);
         virtual void Visit(cParamsNode *node);
+        virtual void Visit(cVarDeclNode *node);
     protected:
         void PreVisitAllNodes(cAstNode *node);
         void PostVisitAllNodes(cAstNode *node);

@@ -18,6 +18,9 @@
 #include "astnodes.h"
 #include "langparse.h"
 
+// My visitors
+#include "cComputeSize.h"
+
 // define global variables
 cSymbolTable g_SymbolTable;
 long long cSymbol::nextId;
@@ -63,6 +66,10 @@ int main(int argc, char **argv)
     {
         if (result == 0)
         {
+            // My visitor passes
+            cComputeSize sizer;
+            sizer.VisitAllNodes(yyast_root);
+
             output << yyast_root->ToString() << std::endl;
         } else {
             output << yynerrs << " Errors in compile\n";

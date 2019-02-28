@@ -22,7 +22,8 @@ public:
             iden = new cSymbol(iden->GetName());
         }
 
-        // Otherwise we will just use the identity symbol the scanner created for us
+        // Otherwise we will just use the identity symbol the scanner 
+        // created for us
         
         // Insert the symbol into the symbol table, at this point
         // iden is garunteed to not already be in the symbol table

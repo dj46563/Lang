@@ -17,6 +17,8 @@ class cDeclsNode : public cAstNode
         // param is the first decl in this decls
         cDeclsNode(cDeclNode *decl) : cAstNode()
         {
+            m_declsSize = -1;
+
             AddChild(decl);
         }
 
@@ -28,4 +30,19 @@ class cDeclsNode : public cAstNode
 
         virtual string NodeType() { return string("decls"); }
         virtual void Visit(cVisitor *visitor) { visitor->Visit(this); }
+        virtual string AttributesToString() {
+            if (m_declsSize == 0) {
+                return "";
+            }
+            else {
+                char retStr[100];
+                std::sprintf(retStr, " size=\"%d\"", m_declsSize);
+                return string(retStr);
+            }
+        }
+
+        int GetDeclsSize()          { return m_declsSize; }
+        void SetDeclsSize(int size) { m_declsSize = size; }
+    private:
+        int m_declsSize;
 };
