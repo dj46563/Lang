@@ -36,10 +36,16 @@ class cComputeSize : public cVisitor
         virtual void Visit(cBlockNode *node) {
             int oldOffset = m_offset;
             int oldHighWater = m_highWater;
+
             VisitAllChildren(node);
+
             node->SetBlockSize(m_highWater - oldOffset);
+            // If the high water we achieved in my children is higher
+            // then set that in the member
             if (oldHighWater > m_highWater)
                 m_highWater = oldHighWater;
+            // When the block is complete then put the offset back to
+            // where it started
             m_offset = oldOffset;
         }
     private:
