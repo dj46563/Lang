@@ -24,6 +24,10 @@ class cStmtsNode;
 class cSymbol;
 class cParamsNode;
 class cVarDeclNode;
+class cStructDeclNode;
+class cFuncDeclNode;
+class cParamsNode;
+class cVarExprNode;
 
 class cVisitor
 {
@@ -46,6 +50,9 @@ class cVisitor
         virtual void Visit(cSymbol *node);
         virtual void Visit(cParamsNode *node);
         virtual void Visit(cVarDeclNode *node);
+        virtual void Visit(cStructDeclNode *node);
+        virtual void Visit(cFuncDeclNode *node);
+        virtual void Visit(cVarExprNode *node);
     protected:
         void PreVisitAllNodes(cAstNode *node);
         void PostVisitAllNodes(cAstNode *node);

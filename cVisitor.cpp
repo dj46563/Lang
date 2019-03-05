@@ -53,3 +53,6 @@ void cVisitor::Visit(cStmtsNode *node)        { VisitAllChildren(node); }
 void cVisitor::Visit(cSymbol *node)           { VisitAllChildren(node); }
 void cVisitor::Visit(cParamsNode *node)       { VisitAllChildren(node); }
 void cVisitor::Visit(cVarDeclNode *node)      { VisitAllChildren(node); }
+void cVisitor::Visit(cStructDeclNode *node)   { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncDeclNode *node)     { VisitAllChildren(node); }
+void cVisitor::Visit(cVarExprNode *node)      { VisitAllChildren(node); }

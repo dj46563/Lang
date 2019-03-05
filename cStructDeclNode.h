@@ -25,6 +25,7 @@ public:
         // and set it as a type
         name->SetType(true);
         name->SetDecl(this);
+        SetDeclSize(-2);
         g_SymbolTable.Insert(name);
 
         AddChild(decls);

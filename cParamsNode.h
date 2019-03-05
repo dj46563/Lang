@@ -19,6 +19,8 @@ public:
     cParamsNode(cVarDeclNode* decl) : cAstNode()
     {
         AddChild(decl);
+
+        m_paramsSize = -1;
     }
 
     int GetNumParams()
@@ -37,7 +39,26 @@ public:
         AddChild(decl);
     }
 
+    void SetParamsSize(int size) {
+        m_paramsSize = size;
+    }
+    int GetParamsSize() {
+        return m_paramsSize;
+    }
 
+    virtual string AttributesToString() {
+        if (m_paramsSize == 0) {
+            return "";
+        }
+        else {
+            string result( " size=\"");
+            result += std::to_string(m_paramsSize);
+            result += "\"";
+            return result;
+        }
+    }
     virtual string NodeType() { return string("args"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
+private:
+    int m_paramsSize;
 };

@@ -31,7 +31,7 @@ public:
         g_SymbolTable.Insert(iden);
 
         // Set the size member to the type's size
-        SetDeclSize(type->GetDecl()->GetSize());
+        SetDeclSize(type->GetDecl()->GetDeclSize());
 
         AddChild(type);
         AddChild(iden);
