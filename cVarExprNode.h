@@ -8,17 +8,33 @@ class cVarExprNode : public cExprNode
     public:
         cVarExprNode(cSymbol* sym) : cExprNode()
         {
+            m_exprSize = -1;
+            m_exprOffset = -1;
+
             // Check if the symbol exists in any scope
             cSymbol *symbol = g_SymbolTable.Find(sym->GetName());
             if (symbol == nullptr)
                 SemanticError("Symbol " + sym->GetName() + " not defined");
 
-            AddChild(sym);
+            AddChild(symbol);
+        }
+
+        cSymbol *GetExprChild(int index) {
+            return dynamic_cast<cSymbol*>(GetChild(index));
+        }
+        int GetExprChildCount() {
+            return NumChildren();
         }
 
         virtual cDeclNode *GetType()
         {
-            return dynamic_cast<cSymbol*>(GetChild(NumChildren() - 1))->GetDecl();
+            return dynamic_cast<cSymbol*>(GetChild(NumChildren() - 1))->
+                GetDecl()->GetType();
+        }
+
+        cDeclNode *GetDecl() {
+            return dynamic_cast<cSymbol*>(GetChild(NumChildren() - 1))->
+                GetDecl();
         }
 
         // So that you can insert more symbols into the varref
@@ -28,7 +44,7 @@ class cVarExprNode : public cExprNode
             // If this is the left most thing make sure the reference to 
             // the . is actually a struct
             cSymbol * left = dynamic_cast<cSymbol*>(GetChild(NumChildren() - 1));
-            if (!left->GetDecl()->IsStruct())
+            if (!left->GetDecl()->GetType()->IsStruct())
             {
                 string name = "";
                 for (int i = 0; i < NumChildren(); i++)
@@ -58,6 +74,22 @@ class cVarExprNode : public cExprNode
             AddChild(child);
         }
 
+        void SetExprSize(int size) { m_exprSize = size; }
+        void SetExprOffset(int offset) { m_exprOffset = offset; }
+
+        virtual string AttributesToString() {
+            //cDeclNode * type = GetType();
+            string result( " size=\"");
+            result += std::to_string(m_exprSize);
+            result += "\" offset=\"";
+            result += std::to_string(m_exprOffset);
+            result += "\"";
+            return result;
+        }
+
         virtual string NodeType() { return string("varref"); }
         virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
+    private:
+        int m_exprSize;
+        int m_exprOffset;
 };

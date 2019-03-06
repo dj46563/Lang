@@ -6,6 +6,7 @@ class cComputeSize : public cVisitor
         cComputeSize() : cVisitor() {
             m_offset = 0;
             m_highWater = 0;
+            m_isParam = false;
         }
 
         virtual void VisitAllNodes(cAstNode *node) {
@@ -14,8 +15,8 @@ class cComputeSize : public cVisitor
 
         virtual void Visit(cVarDeclNode *node) {
             // If the node's size isn't 1 then start offset off at a
-            // multiple of 4
-            if (node->GetDeclSize() != 1)
+            // multiple of 4, if these are params then round
+            if (node->GetDeclSize() != 1 || m_isParam)
                 m_offset = roundNumber(m_offset, 4);
 
             node->SetDeclOffset(m_offset);
@@ -30,7 +31,14 @@ class cComputeSize : public cVisitor
             }
         }
         virtual void Visit(cVarExprNode *node) {
+            int offset = 0;
+            for (int i = 0; i < node->GetExprChildCount(); i++) {
+                offset += node->GetExprChild(i)->GetDecl()->GetDeclOffset();
+            }
 
+            node->SetExprSize(node->GetDecl()->GetDeclSize());
+            node->SetExprOffset(offset);
+            VisitAllChildren(node);
         }
         virtual void Visit(cStructDeclNode *node) {
             node->SetDeclOffset(0);
@@ -66,7 +74,11 @@ class cComputeSize : public cVisitor
         }
         virtual void Visit(cParamsNode *node) {
             int oldOffset = m_offset;
+
+            // Enable params so that all args become word aligned
+            m_isParam = true;
             VisitAllChildren(node);
+            m_isParam = false;
 
             // Round the offset to the nearest 4
             // The params node will store the empty space at the end
@@ -99,6 +111,7 @@ class cComputeSize : public cVisitor
     private:
         int m_offset;
         int m_highWater;
+        bool m_isParam;
 
         int roundNumber(int number, int mod) {
             // Round the function size to 4

@@ -27,7 +27,8 @@ public:
         
         // Insert the symbol into the symbol table, at this point
         // iden is garunteed to not already be in the symbol table
-        iden->SetDecl(type->GetDecl()); // Setting the identifier's decl to this
+        //iden->SetDecl(type->GetDecl()); // Setting the identifier's decl to this
+        iden->SetDecl(this);
         g_SymbolTable.Insert(iden);
 
         // Set the size member to the type's size
