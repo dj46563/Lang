@@ -31,6 +31,7 @@ class cComputeSize : public cVisitor
             }
         }
         virtual void Visit(cVarExprNode *node) {
+            // Add up all the offsets of the children in var expr
             int offset = 0;
             for (int i = 0; i < node->GetExprChildCount(); i++) {
                 offset += node->GetExprChild(i)->GetDecl()->GetDeclOffset();
