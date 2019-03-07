@@ -1,18 +1,2 @@
-diff --git a/cFuncExprNode.h b/cFuncExprNode.h
-index 8bd6888..fea8c48 100644
---- a/cFuncExprNode.h
-+++ b/cFuncExprNode.h
-@@ -18,11 +18,11 @@ public:
-     cFuncExprNode(cSymbol* name, cParamListNode* params) : cExprNode()
-     {
-         // Check to see if the name is a delcaration
--        if (!g_SymbolTable.Find(name->GetName())) {
-+        if (name->GetDecl() == nullptr) {
-             SemanticError(name->GetName() + " is not declared");
-         }
-         // Check to see if the name is a delclaration of a function
--        else if (!g_SymbolTable.Find(name->GetName())->GetDecl()->IsFunc())
-+        else if (name->GetDecl()->IsFunc())
-         {
-             SemanticError(name->GetName() + " is not a function");
-         }
+1
+2

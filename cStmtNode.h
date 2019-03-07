@@ -16,4 +16,7 @@ class cStmtNode : public cAstNode
 {
     public:
         cStmtNode() : cAstNode() {}
+        cAstNode* GetChild(int index) {
+            return cAstNode::GetChild(index);
+        }
 };

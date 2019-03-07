@@ -31,6 +31,16 @@ public:
             m_type = expr2->GetType();
     }
 
+    cExprNode* GetLeft() {
+        return dynamic_cast<cExprNode*>(GetChild(0));
+    }
+    cExprNode* GetRight() {
+        return dynamic_cast<cExprNode*>(GetChild(2));
+    }
+    cOpNode* GetOp() {
+        return dynamic_cast<cOpNode*>(GetChild(1));
+    }
+
     // TODO
     virtual cDeclNode *GetType()
     {

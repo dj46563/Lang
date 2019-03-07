@@ -22,7 +22,9 @@ class cIntExprNode : public cExprNode
         {
             m_value = value;
         }
-
+        int GetValue() {
+            return m_value;
+        }   
         virtual cDeclNode *GetType()
         {
             // Return the decl attached to either the char or int

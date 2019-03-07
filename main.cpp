@@ -47,7 +47,8 @@ int main(int argc, char **argv)
         outfile_name = "langout";
     }
 
-    //g_SymbolTable.InitRootTable();
+    std::ofstream output("out.xml");
+    std::cout.rdbuf(output.rdbuf());
 
     result = yyparse();
     if (yyast_root != nullptr)
@@ -57,7 +58,7 @@ int main(int argc, char **argv)
             cComputeSize sizer;
             sizer.VisitAllNodes(yyast_root);
 
-            //output << yyast_root->ToString() << std::endl;
+            output << yyast_root->ToString() << std::endl;
 
             // need to make the coder go out of scope before assembling
             {
