@@ -60,3 +60,4 @@ void cVisitor::Visit(cBinaryExprNode *node)   { VisitAllChildren(node); }
 void cVisitor::Visit(cIfNode *node)           { VisitAllChildren(node); }
 void cVisitor::Visit(cAssignNode *node)       { VisitAllChildren(node); }
 void cVisitor::Visit(cWhileNode *node)        { VisitAllChildren(node); }
+void cVisitor::Visit(cFuncExprNode *node)     { VisitAllChildren(node); }

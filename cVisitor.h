@@ -32,6 +32,7 @@ class cBinaryExprNode;
 class cIfNode;
 class cAssignNode;
 class cWhileNode;
+class cFuncExprNode;
 
 class cVisitor
 {
@@ -56,6 +57,7 @@ class cVisitor
         virtual void Visit(cVarDeclNode *node);
         virtual void Visit(cStructDeclNode *node);
         virtual void Visit(cFuncDeclNode *node);
+        virtual void Visit(cFuncExprNode *node);
         virtual void Visit(cVarExprNode *node);
         virtual void Visit(cBinaryExprNode *node);
         virtual void Visit(cIfNode *node);

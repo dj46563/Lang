@@ -1,5 +1,5 @@
 main:
 ADJSP 0
-CALL @print
-POP
-POP
+PUSH 4
+PUSH 5
+CALL @Foo

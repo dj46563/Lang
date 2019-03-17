@@ -54,6 +54,14 @@ public:
         }
     }
 
+    cParamListNode *GetParamList() {
+        return dynamic_cast<cParamListNode*>(GetChild(1));
+    }
+
+    std::string GetName() {
+        return dynamic_cast<cSymbol*>(GetChild(0))->GetName();
+    }
+
     virtual cDeclNode *GetType()
     {
         return dynamic_cast<cSymbol*>(GetChild(0))->GetDecl()->GetType();

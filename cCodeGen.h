@@ -81,7 +81,19 @@ class cCodeGen : public cVisitor
         }
 
         virtual void Visit(cFuncDeclNode *node) {
-            
+            // push arguments
+            //for (int i = 0; i < 
+        }
+
+        virtual void Visit(cFuncExprNode *node) {
+            // Push arguments onto stack right to left
+            cParamListNode *params = node->GetParamList();
+            for (int i = params->GetNumParams() - 1; i >= 0; i--) {
+                params->GetParam(i)->Visit(this);
+            }
+
+            EmitString("CALL @");
+            EmitString(node->GetName() + "\n");
         }
 
         virtual void Visit(cWhileNode *node) {
