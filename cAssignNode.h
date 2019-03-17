@@ -40,6 +40,13 @@ public:
         rightStr = "test";
     }
 
+    cVarExprNode *GetLeft() {
+        return dynamic_cast<cVarExprNode*>(GetChild(0));
+    }
+    cExprNode *GetRight() {
+        return dynamic_cast<cExprNode*>(GetChild(1));
+    }
+
     // The constructor for assigning expressions to function (stmt)
     /*
     cAssignNode(cVarExprNode* left, cStmtNode* right) : cStmtNode()

@@ -18,6 +18,17 @@ class cCodeGen : public cVisitor
 
         virtual void Visit(cProgramNode *node) {
             EmitString("main:\n");
+            
+            // Block size needs to be word aligned
+            int size = node->GetBlock()->GetBlockSize();
+            if (size % 4 != 0) {
+                size += size % 4;
+            }
+
+            EmitString("ADJSP ");
+            EmitInt(size);
+            EmitString("\n");
+
             VisitAllChildren(node);
         }
 
@@ -31,6 +42,37 @@ class cCodeGen : public cVisitor
             EmitString("POP\n");
         }
 
+        virtual void Visit(cBlockNode *node) {
+            VisitAllChildren(node);
+        }
+
+        virtual void Visit(cAssignNode *node) {
+            int varOffset = node->GetLeft()->GetDecl()->GetDeclOffset();
+            int varSize = node->GetLeft()->GetDecl()->GetDeclSize();
+            node->GetRight()->Visit(this);
+            if (varSize == 1) {
+                EmitString("POPCVAR ");
+            }
+            else {
+                EmitString("POPVAR ");
+            }
+            EmitInt(varOffset);
+            EmitString("\n");
+        }
+
+        virtual void Visit(cVarExprNode *node) {
+            int varOffset = node->GetExprOffset();
+            // Use PUSHCVAR if size is 1, otherwise PUSHVAR
+            if (node->GetExprSize() == 1) {
+                EmitString("PUSHCVAR ");
+            }
+            else {
+                EmitString("PUSHVAR ");
+            }
+            EmitInt(varOffset);
+            EmitString("\n");
+        }
+
         virtual void Visit(cIntExprNode *node) {
             // Push the expr to the top of the stack
             EmitString("PUSH ");
@@ -38,16 +80,26 @@ class cCodeGen : public cVisitor
             EmitString("\n");
         }
 
-        virtual void Visit(cWhileNode *node) {
-            node->GetCondition()->Visit(this);
+        virtual void Visit(cFuncDeclNode *node) {
             
+        }
+
+        virtual void Visit(cWhileNode *node) {
             string startLabel = GenerateLabel();
             string endLabel = GenerateLabel();
 
             EmitString(startLabel + ":\n");
+            // Push the condition
+            node->GetCondition()->Visit(this);
+            // If condition is false goto end
             EmitString("JUMPE @" + endLabel + "\n");
+
+            // Otherwise go on to statements then jump to start
             node->GetStmt()->Visit(this);
-            EmitString("JUMP");  // TODO: finish this 
+            EmitString("JUMP @");
+            EmitString(startLabel + "\n");
+
+            EmitString(endLabel + ":\n");
         }
 
         virtual void Visit(cIfNode *node) {
@@ -96,6 +148,7 @@ class cCodeGen : public cVisitor
                     break;
                 case NEQUALS:
                     EmitString("NE\n");
+                    break;
                 case AND:
                     EmitString("AND\n");
                     break;

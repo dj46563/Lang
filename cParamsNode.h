@@ -25,7 +25,10 @@ public:
 
     int GetNumParams()
     {
-        return NumChildren();
+        if (HasChildren())
+            return NumChildren();
+        else
+            return 0;
     }
 
     cVarDeclNode* GetParam(int i )

@@ -58,3 +58,5 @@ void cVisitor::Visit(cFuncDeclNode *node)     { VisitAllChildren(node); }
 void cVisitor::Visit(cVarExprNode *node)      { VisitAllChildren(node); }
 void cVisitor::Visit(cBinaryExprNode *node)   { VisitAllChildren(node); }
 void cVisitor::Visit(cIfNode *node)           { VisitAllChildren(node); }
+void cVisitor::Visit(cAssignNode *node)       { VisitAllChildren(node); }
+void cVisitor::Visit(cWhileNode *node)        { VisitAllChildren(node); }

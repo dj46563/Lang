@@ -34,18 +34,22 @@ public:
         else 
         {
             // Check if the params count matches with the decl params count
-            // If params is null then num of params is 0
-            int numParams = params ? params->GetNumParams() : 0;
-            if (dynamic_cast<cFuncDeclNode*>(name->GetDecl())->GetParams()->
-                    GetNumParams() != numParams)
-            {
-                SemanticError(name->GetName() + " called with wrong number of " +
-                        "arguments");
-            }
-            else
-            {
-                AddChild(name);
-                AddChild(params);
+            // if params is null then ignore this
+            // TODO: Fix this, if there are no params it wont make sure the other
+            //       function has no params
+            if (params != nullptr) {
+                int numParams = params->GetNumParams();
+                if (dynamic_cast<cFuncDeclNode*>(name->GetDecl())->GetParams()->
+                        GetNumParams() != numParams)
+                {
+                    SemanticError(name->GetName() + " called with wrong number of " +
+                            "arguments");
+                }
+                else
+                {
+                    AddChild(name);
+                    AddChild(params);
+                }
             }
         }
     }

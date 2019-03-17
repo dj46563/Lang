@@ -24,7 +24,7 @@ public:
     }
 
     cExprNode* GetCondition() {
-        return dynamic_cast<cExprNode*>GetChild(0);
+        return dynamic_cast<cExprNode*>(GetChild(0));
     }
     cStmtNode* GetStmt() {
         return dynamic_cast<cStmtNode*>(GetChild(1));

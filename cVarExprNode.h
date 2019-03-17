@@ -76,6 +76,8 @@ class cVarExprNode : public cExprNode
 
         void SetExprSize(int size) { m_exprSize = size; }
         void SetExprOffset(int offset) { m_exprOffset = offset; }
+        int GetExprOffset() { return m_exprOffset; }
+        int GetExprSize() { return m_exprSize; }
 
         virtual string AttributesToString() {
             //cDeclNode * type = GetType();

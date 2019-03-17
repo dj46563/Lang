@@ -18,7 +18,6 @@ class cExprNode;
 class cIntExprNode;
 class cOpNode;
 class cPrintNode;
-class cProgramNode;
 class cStmtNode;
 class cStmtsNode;
 class cSymbol;
@@ -31,6 +30,8 @@ class cVarExprNode;
 class cProgramNode;
 class cBinaryExprNode;
 class cIfNode;
+class cAssignNode;
+class cWhileNode;
 
 class cVisitor
 {
@@ -58,6 +59,8 @@ class cVisitor
         virtual void Visit(cVarExprNode *node);
         virtual void Visit(cBinaryExprNode *node);
         virtual void Visit(cIfNode *node);
+        virtual void Visit(cAssignNode *node);
+        virtual void Visit(cWhileNode *node);
     protected:
         void PreVisitAllNodes(cAstNode *node);
         void PostVisitAllNodes(cAstNode *node);
