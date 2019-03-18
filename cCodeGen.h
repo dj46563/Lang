@@ -96,9 +96,9 @@ class cCodeGen : public cVisitor
             if (params != nullptr) {
                 int count = params->GetNumParams();
                 for (int i = 0; i < count; i++) {
-                    EmitString("POPVAR ");
-                    EmitInt(params->GetParam(i)->GetDeclOffset());
-                    EmitString("\n");
+                    //EmitString("POPVAR ");
+                    //EmitInt(params->GetParam(i)->GetDeclOffset());
+                    //EmitString("\n");
                 }
             }
 
