@@ -45,13 +45,11 @@ public:
                     SemanticError(name->GetName() + " called with wrong number of " +
                             "arguments");
                 }
-                else
-                {
-                    AddChild(name);
-                    AddChild(params);
-                }
             }
         }
+        AddChild(name);
+        AddChild(params);
+
     }
 
     cParamListNode *GetParamList() {
@@ -60,6 +58,11 @@ public:
 
     std::string GetName() {
         return dynamic_cast<cSymbol*>(GetChild(0))->GetName();
+    }
+
+    cFuncDeclNode *GetDecl() {
+        cSymbol *sym = dynamic_cast<cSymbol*>(GetChild(0));
+        return dynamic_cast<cFuncDeclNode*>(sym->GetDecl());
     }
 
     virtual cDeclNode *GetType()

@@ -94,6 +94,7 @@ public:
     void InsertLocals(cDeclsNode* locals)
     {
         AddChild(locals);
+        m_decls = locals;
     }
 
     bool GetDefined()
@@ -113,8 +114,16 @@ public:
         else
         {
             m_defined = true;
+            m_stmts = stmts;
             AddChild(stmts);
         }
+    }
+
+    cStmtsNode* GetStmts() {
+        return m_stmts;
+    }
+    cDeclsNode* GetDecls() {
+        return m_decls;
     }
 
     virtual cDeclNode *GetType() {
@@ -132,6 +141,8 @@ public:
     virtual string NodeType() { return string("func"); }
     virtual void Visit(cVisitor *visitor) {visitor->Visit(this); }
 private:
+    cStmtsNode* m_stmts;
+    cDeclsNode* m_decls;
     // pointers to the params node so I know which child is the params
     cParamsNode* m_params;
     // Keeps track of the original decl that I am redeclaring

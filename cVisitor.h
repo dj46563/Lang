@@ -33,6 +33,7 @@ class cIfNode;
 class cAssignNode;
 class cWhileNode;
 class cFuncExprNode;
+class cReturnNode;
 
 class cVisitor
 {
@@ -63,6 +64,7 @@ class cVisitor
         virtual void Visit(cIfNode *node);
         virtual void Visit(cAssignNode *node);
         virtual void Visit(cWhileNode *node);
+        virtual void Visit(cReturnNode *node);
     protected:
         void PreVisitAllNodes(cAstNode *node);
         void PostVisitAllNodes(cAstNode *node);

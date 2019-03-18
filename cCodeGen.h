@@ -17,19 +17,22 @@ class cCodeGen : public cVisitor
         }
 
         virtual void Visit(cProgramNode *node) {
+            // Put the main label after the decls and before stmts
+            if (node->GetBlock()->GetDecls() != nullptr)
+                node->GetBlock()->GetDecls()->Visit(this);
             EmitString("main:\n");
             
             // Block size needs to be word aligned
             int size = node->GetBlock()->GetBlockSize();
             if (size % 4 != 0) {
-                size += size % 4;
+                size += 4 - (size % 4);
             }
 
             EmitString("ADJSP ");
             EmitInt(size);
             EmitString("\n");
 
-            VisitAllChildren(node);
+            node->GetBlock()->GetStmts()->Visit(this);
         }
 
         virtual void Visit(cPrintNode *node) {
@@ -81,19 +84,66 @@ class cCodeGen : public cVisitor
         }
 
         virtual void Visit(cFuncDeclNode *node) {
-            // push arguments
-            //for (int i = 0; i < 
+            // Dont do anythng if this is a just a function header
+            if (node->GetStmts() == nullptr)
+                return;
+
+            // Print the label
+            EmitString(node->GetName() + ":\n");
+
+            // Pop args off stack
+            cParamsNode *params = node->GetParams();
+            if (params != nullptr) {
+                int count = params->GetNumParams();
+                for (int i = 0; i < count; i++) {
+                    EmitString("POPVAR ");
+                    EmitInt(params->GetParam(i)->GetDeclOffset());
+                    EmitString("\n");
+                }
+            }
+
+            // Adjust stack for locals
+            int size = node->GetDeclSize();
+            if (size % 4 != 0) {
+                size += size % 4;
+            }
+
+            EmitString("ADJSP ");
+            EmitInt(size);
+            EmitString("\n");
+            
+            // Generate code for decls and stmts
+            if (node->GetDecls() != nullptr)
+                node->GetDecls()->Visit(this);
+            if (node->GetStmts() != nullptr)
+                node->GetStmts()->Visit(this);
+        }
+
+        virtual void Visit(cReturnNode *node) {
+            VisitAllChildren(node);
+            EmitString("RETURNV\n");
         }
 
         virtual void Visit(cFuncExprNode *node) {
             // Push arguments onto stack right to left
             cParamListNode *params = node->GetParamList();
-            for (int i = params->GetNumParams() - 1; i >= 0; i--) {
-                params->GetParam(i)->Visit(this);
+            if (params != nullptr) {
+                for (int i = params->GetNumParams() - 1; i >= 0; i--) {
+                    params->GetParam(i)->Visit(this);
+                }
             }
 
+            // Call the function
             EmitString("CALL @");
             EmitString(node->GetName() + "\n");
+
+            // Pop args off
+            int paramSize = 0;
+            if (node->GetDecl()->GetParams() != nullptr)
+                paramSize = node->GetDecl()->GetParams()->GetParamsSize();
+            EmitString("POPARGS ");
+            EmitInt(paramSize);
+            EmitString("\n");
         }
 
         virtual void Visit(cWhileNode *node) {

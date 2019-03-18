@@ -74,6 +74,25 @@ class cComputeSize : public cVisitor
             m_highWater = oldHighWater;
         }
         virtual void Visit(cParamsNode *node) {
+            // Based on function call stack overhead
+            m_offset = -12;
+
+            // compute each params size and offset
+            for(int i = 0; i < node->GetNumParams(); i++) {
+                cDeclNode *param = node->GetParam(i);
+                param->SetDeclSize(param->GetType()->GetDeclSize());
+                param->SetDeclOffset(m_offset);
+
+                m_offset -= param->GetDeclSize();
+                m_offset = RoundDown(m_offset);
+            }
+
+            // Compute size based on call stack overhead
+            node->SetParamsSize(-12 - m_offset);
+            // Reset m_offset for function locals
+            m_offset = 0;
+            
+            /*
             int oldOffset = m_offset;
 
             // Enable params so that all args become word aligned
@@ -85,7 +104,17 @@ class cComputeSize : public cVisitor
             // The params node will store the empty space at the end
             m_offset = roundNumber(m_offset, 4);
             node->SetParamsSize(m_offset - oldOffset);
+            */
         }
+
+        int RoundDown(int value)
+        {
+            if(value % 4 == 0)
+                return value;
+            else
+                return value - (4 + value % 4);
+        }
+
         virtual void Visit(cDeclsNode *node) {
             int oldOffset = m_offset;
             VisitAllChildren(node);
